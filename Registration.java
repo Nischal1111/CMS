@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
@@ -36,6 +38,8 @@ public class Registration extends JFrame {
 	private JPasswordField pw;
 	private JPasswordField ConfirmPw;
 	private JComboBox combo;
+	private JComboBox comboBox;
+	private JComboBox comboBox_1;
 
 	/**
 	 * Launch the application.
@@ -56,7 +60,7 @@ public class Registration extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void registerUser(String email, String password, String role, String fullname) {
+	private void registerUser(String email, String password, String role, String fullname,String level,String course) {
 	    String url = "jdbc:mysql://localhost:3306/CMS";
 	    String dbUsername = "root";
 	    String dbPassword = "";
@@ -65,16 +69,19 @@ public class Registration extends JFrame {
 	        // Check the role and insert into the corresponding table
 	        switch (role) {
 	            case "Student":
-	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO students (email, password, fullname) VALUES (?, ?, ?)")) {
+	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Student (email, password, fullname,level,course) VALUES (?, ?, ?,?,?)")) {
 	                    preparedStatement.setString(1, email);
 	                    preparedStatement.setString(2, password);
 	                    preparedStatement.setString(3, fullname);
+	                    preparedStatement.setString(4, level);
+	                    preparedStatement.setString(5, course);
+	                    
 	                    preparedStatement.executeUpdate();
 	                }
 	                break;
 
 	            case "Admin":
-	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO admins (email, password, fullname) VALUES (?, ?, ?, ?)")) {
+	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Admin (email, password, fullname) VALUES (?, ?, ?, ?)")) {
 	                    preparedStatement.setString(1, email);
 	                    preparedStatement.setString(2, password);
 	                    preparedStatement.setString(3, fullname);
@@ -83,7 +90,7 @@ public class Registration extends JFrame {
 	                break;
 
 	            case "Teacher":
-	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO teachers (email, password, fullname) VALUES (?, ?, ?)")) {
+	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Teacher (email, password, fullname) VALUES (?, ?, ?)")) {
 	                    preparedStatement.setString(1, email);
 	                    preparedStatement.setString(2, password);
 	                    preparedStatement.setString(3, fullname);
@@ -108,7 +115,7 @@ public class Registration extends JFrame {
 	
 	public Registration() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 731, 465);
+		setBounds(100, 100, 731, 501);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,31 +129,40 @@ public class Registration extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_2 = new JLabel("Full Name:");
-		lblNewLabel_2.setBounds(218, 154, 72, 16);
+		lblNewLabel_2.setBounds(67, 154, 72, 16);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("E-mail:");
 		lblNewLabel_3.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		lblNewLabel_3.setBounds(218, 194, 61, 16);
+		lblNewLabel_3.setBounds(67, 197, 61, 16);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Password:");
-		lblNewLabel_4.setBounds(218, 230, 72, 16);
+		lblNewLabel_4.setBounds(67, 235, 72, 16);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Confirm Password:");
-		lblNewLabel_5.setBounds(218, 263, 118, 16);
+		lblNewLabel_5.setBounds(63, 274, 118, 16);
 		contentPane.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_1 = new JLabel("Level:");
+		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		lblNewLabel_1.setBounds(397, 211, 61, 16);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_8 = new JLabel("Courses:");
+		lblNewLabel_8.setBounds(397, 258, 61, 16);
+		contentPane.add(lblNewLabel_8);
 		
 		fullname = new JTextField();
 		fullname.setForeground(new Color(169, 169, 169));
-		fullname.setBounds(363, 149, 130, 26);
+		fullname.setBounds(198, 149, 130, 26);
 		contentPane.add(fullname);
 		fullname.setColumns(10);
 		
 		email = new JTextField();
 		email.setForeground(new Color(169, 169, 169));
-		email.setBounds(363, 187, 130, 26);
+		email.setBounds(198, 192, 130, 26);
 		contentPane.add(email);
 		email.setColumns(10);
 		
@@ -158,6 +174,8 @@ public class Registration extends JFrame {
 				String pass = pw.getText();
 				String Confirmpw = ConfirmPw.getText();
 				String role = (String) combo.getSelectedItem();
+				String level = (String) comboBox.getSelectedItem();
+				String course = (String) comboBox_1.getSelectedItem();
 				
                 
                 // Regex for LastName
@@ -181,7 +199,7 @@ public class Registration extends JFrame {
 				
                 if (!FullName.equals("") && !Email.equals("") && !pass.equals("") && !Confirmpw.equals("")) {
                     if ( lname == true && passNew == true && Confirmpw.equals(pass)) {
-                        registerUser(Email, pass, role,FullName);
+                        registerUser(Email, pass, role,FullName,level,course);
                         Assessment login = new Assessment();
                         login.setVisible(true);
                         dispose();
@@ -195,24 +213,45 @@ public class Registration extends JFrame {
 		});
 		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setBackground(new Color(138, 43, 226));
-		btnNewButton.setBounds(413, 322, 80, 38);
+		btnNewButton.setBounds(321, 322, 92, 46);
 		contentPane.add(btnNewButton);
 		
 		pw = new JPasswordField();
-		pw.setBounds(363, 225, 130, 26);
+		pw.setBounds(198, 230, 130, 26);
 		contentPane.add(pw);
 		
 		ConfirmPw = new JPasswordField();
-		ConfirmPw.setBounds(363, 258, 130, 26);
+		ConfirmPw.setBounds(198, 269, 130, 26);
 		contentPane.add(ConfirmPw);
 		
 		combo = new JComboBox();
 		combo.setModel(new DefaultComboBoxModel(new String[] {"Student", "Admin", "Teacher"}));
-		combo.setBounds(363, 293, 129, 27);
+		combo.setBounds(481, 150, 129, 27);
 		contentPane.add(combo);
 		
+		combo.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String selectedRole = (String) combo.getSelectedItem();
+                    if (selectedRole.equals("Student")) {
+                        comboBox.setVisible(true);
+                        comboBox_1.setVisible(true);
+                        lblNewLabel_1.setVisible(true);
+                        lblNewLabel_8.setVisible(true);
+                        
+                    } else {
+                        comboBox.setVisible(false);
+                        comboBox_1.setVisible(false);
+                        lblNewLabel_1.setVisible(false);
+                        lblNewLabel_8.setVisible(false);
+                    }
+                }
+            }
+        });
+		
 		JLabel lblNewLabel_6 = new JLabel("Register As:");
-		lblNewLabel_6.setBounds(218, 297, 105, 16);
+		lblNewLabel_6.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		lblNewLabel_6.setBounds(397, 154, 105, 16);
 		contentPane.add(lblNewLabel_6);
 		
 		JButton login = new JButton("Login");
@@ -223,11 +262,23 @@ public class Registration extends JFrame {
 				dispose();
 			}
 		});
-		login.setBounds(363, 366, 117, 29);
+		login.setBounds(348, 397, 92, 46);
 		contentPane.add(login);
 		
 		JLabel lblNewLabel_7 = new JLabel("Go to Login Page -->");
-		lblNewLabel_7.setBounds(218, 371, 150, 16);
+		lblNewLabel_7.setBounds(198, 408, 150, 16);
 		contentPane.add(lblNewLabel_7);
+		
+		
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"4", "5", "6"}));
+		comboBox.setBounds(481, 207, 72, 27);
+		contentPane.add(comboBox);
+		
+		comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"BSc(Hons) Computer Science", "Bachelor in Intl Business Management", "Master of Business Administration","Bachelors in Computer Application"}));
+		comboBox_1.setBounds(481, 254, 244, 27);
+		contentPane.add(comboBox_1);
 	}
 }
