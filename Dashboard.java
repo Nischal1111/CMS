@@ -161,11 +161,23 @@ public class Dashboard extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnNewButton_5 = new JButton("Add\nCourse\n");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddCourse ac = new AddCourse();
+				ac.setVisible(true);
+			}
+		});
 		btnNewButton_5.setBounds(345, 119, 98, 35);
 		btnNewButton_5.setBackground(new Color(210, 105, 30));
 		panel_4.add(btnNewButton_5);
 		
 		JButton btnNewButton_6 = new JButton("Edit Course");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EditCourse ec=new EditCourse();
+				ec.setVisible(true);
+			}
+		});
 		btnNewButton_6.setBounds(448, 119, 98, 35);
 		panel_4.add(btnNewButton_6);
 		

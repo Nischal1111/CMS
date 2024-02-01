@@ -66,7 +66,6 @@ public class Registration extends JFrame {
 	    String dbPassword = "";
 
 	    try (Connection connection = DriverManager.getConnection(url, dbUsername, dbPassword)) {
-	        // Check the role and insert into the corresponding table
 	        switch (role) {
 	            case "Student":
 	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Student (email, password, fullname,level,course) VALUES (?, ?, ?,?,?)")) {
