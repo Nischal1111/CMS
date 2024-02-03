@@ -80,7 +80,7 @@ public class Registration extends JFrame {
 	                break;
 
 	            case "Admin":
-	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Admin (email, password, fullname) VALUES (?, ?, ?, ?)")) {
+	                try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Admin (email, password, fullname) VALUES (?, ?, ?)")) {
 	                    preparedStatement.setString(1, email);
 	                    preparedStatement.setString(2, password);
 	                    preparedStatement.setString(3, fullname);

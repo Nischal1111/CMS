@@ -49,12 +49,11 @@ public class Assessment extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private String checkLogin(String username, String password) {
+	private String[] checkLogin(String username, String password) {
         String url = "jdbc:mysql://localhost:3306/CMS";
         String dbUsername = "root";
         String dbPassword = "";
 
-        // Try to find the user in each role table
         for (String role : new String[]{"Student", "Admin", "Teacher"}) {
             try (Connection connection = DriverManager.getConnection(url, dbUsername, dbPassword);
                  PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + role + " WHERE email = ? AND password = ?")) {
@@ -64,7 +63,7 @@ public class Assessment extends JFrame {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        return role;
+                    	return new String[]{resultSet.getString("fullname"), role};
                     }
                 }
 
@@ -107,12 +106,15 @@ public class Assessment extends JFrame {
 				String enteredUsername = textField.getText();
                 String enteredPassword = textField_1.getText();
 
-                String userRole = checkLogin(enteredUsername, enteredPassword);
+                String[] loginResult = checkLogin(enteredUsername, enteredPassword);
 
-                if (userRole != null) {
+                if (loginResult != null) {
+                    String userFullName = loginResult[0];
+                    String userRole = loginResult[1];
+
                     JOptionPane.showMessageDialog(null, "Logged in as " + userRole);
 
-                    Dashboard dashboard = new Dashboard();
+                    Dashboard dashboard = new Dashboard(userFullName, userRole);
                     dashboard.setVisible(true);
 
                     dispose();
