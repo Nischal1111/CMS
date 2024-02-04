@@ -17,7 +17,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JScrollPane;
 
-public class TeacherDisplay extends JPanel {
+public class AdminDisplay extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
@@ -25,14 +25,14 @@ public class TeacherDisplay extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public TeacherDisplay() {
+	public AdminDisplay() {
 		
 		DefaultTableModel model = new DefaultTableModel();
 
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
             Statement stmt = con.createStatement();
-            String query = "Select TeacherId,Fullname,Email,Phone from Teacher";
+            String query = "Select AdminID,Fullname,Email,Phone from Admin";
             ResultSet rs = stmt.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
 

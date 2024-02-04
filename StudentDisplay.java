@@ -17,7 +17,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JScrollPane;
 
-public class TeacherDisplay extends JPanel {
+public class StudentDisplay extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
@@ -25,14 +25,15 @@ public class TeacherDisplay extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public TeacherDisplay() {
+	public StudentDisplay() {
+		setLayout(null);
 		
 		DefaultTableModel model = new DefaultTableModel();
 
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
             Statement stmt = con.createStatement();
-            String query = "Select TeacherId,Fullname,Email,Phone from Teacher";
+            String query = "Select StudentID,FullName,Email,Phone,Level,Course from Student";
             ResultSet rs = stmt.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -54,15 +55,14 @@ public class TeacherDisplay extends JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-		setLayout(null);
-
-		
+        
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 6, 659, 288);
+		scrollPane.setBounds(6, 6, 664, 288);
 		add(scrollPane);
 		
 		table = new JTable(model);
 		scrollPane.setViewportView(table);
+		
 		table.setRowSelectionAllowed(false);
         table.setFont(new Font("Niramit", Font.PLAIN, 13));
         table.setForeground(new Color(0, 0, 0));
@@ -70,10 +70,12 @@ public class TeacherDisplay extends JPanel {
 
         TableColumnModel columnModel = table.getColumnModel();
 
-        columnModel.getColumn(0).setPreferredWidth(30);
-        columnModel.getColumn(1).setPreferredWidth(200);
-        columnModel.getColumn(2).setPreferredWidth(50);
-        columnModel.getColumn(3).setPreferredWidth(50);
+        columnModel.getColumn(0).setPreferredWidth(20);
+        columnModel.getColumn(1).setPreferredWidth(130);
+        columnModel.getColumn(2).setPreferredWidth(60);
+        columnModel.getColumn(3).setPreferredWidth(30);
+        columnModel.getColumn(4).setPreferredWidth(20);
+        columnModel.getColumn(5).setPreferredWidth(150);
 
         table.setShowGrid(true);
         table.setShowHorizontalLines(true);

@@ -19,7 +19,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Font;
 
-public class DelTeacher extends JFrame {
+public class DelStudent extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -29,7 +29,7 @@ public class DelTeacher extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    DelTeacher frame = new DelTeacher();
+                    DelStudent frame = new DelStudent();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -38,7 +38,7 @@ public class DelTeacher extends JFrame {
         });
     }
 
-    public DelTeacher() {
+    public DelStudent() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 429, 369);
         contentPane = new JPanel();
@@ -47,7 +47,7 @@ public class DelTeacher extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Select the Teacher ID:");
+        JLabel lblNewLabel = new JLabel("Select the Student ID:");
         lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         lblNewLabel.setBounds(119, 120, 170, 16);
         contentPane.add(lblNewLabel);
@@ -67,7 +67,7 @@ public class DelTeacher extends JFrame {
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
 
-                    String sql = "DELETE FROM Teacher WHERE TeacherID = ?";
+                    String sql = "DELETE FROM Student WHERE StudentID = ?";
 
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -76,9 +76,9 @@ public class DelTeacher extends JFrame {
                         int del = preparedStatement.executeUpdate();
 
                         if (del > 0) {
-                            JOptionPane.showMessageDialog(null, "Teacher Info Deleted !!!");
+                            JOptionPane.showMessageDialog(null, "Student Info Deleted !!!");
                         } else {
-                            JOptionPane.showMessageDialog(null, "Teacher not found!!!");
+                            JOptionPane.showMessageDialog(null, "Student ID not found!!!");
                         }
                     }
                 } catch (SQLException err) {
@@ -98,13 +98,13 @@ public class DelTeacher extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-        JLabel lblNewLabel_1 = new JLabel("Delete Teacher Info !!!");
+        JLabel lblNewLabel_1 = new JLabel("Delete Student Info !!!");
         lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         lblNewLabel_1.setForeground(new Color(255, 0, 0));
         lblNewLabel_1.setBounds(105, 17, 236, 30);
         panel.add(lblNewLabel_1);
 
-        JLabel lblNewLabel_2 = new JLabel("Go to teacher -->");
+        JLabel lblNewLabel_2 = new JLabel("Go to Students -->");
         lblNewLabel_2.setBounds(62, 300, 132, 16);
         contentPane.add(lblNewLabel_2);
 
