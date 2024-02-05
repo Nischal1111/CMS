@@ -1069,8 +1069,8 @@ public class Dashboard extends JFrame {
         panel_17.add(rd);
         rd.setLayout(null);
         
-        JButton btnNewButton_4_1_1 = new JButton("Refresh Page");
-        btnNewButton_4_1_1.addActionListener(new ActionListener() {
+        JButton SRrefr = new JButton("Refresh Page");
+        SRrefr.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		rd = new ResultTable();
         		rd.setBounds(6, 172, 676, 223);
@@ -1079,8 +1079,8 @@ public class Dashboard extends JFrame {
                 rd.setLayout(null);
         	}
         });
-        btnNewButton_4_1_1.setBounds(516, 88, 133, 49);
-        panel_17.add(btnNewButton_4_1_1);
+        SRrefr.setBounds(516, 88, 133, 49);
+        panel_17.add(SRrefr);
         
         
         if(Userrole=="Student" || Userrole=="Teacher") {
@@ -1118,7 +1118,10 @@ public class Dashboard extends JFrame {
         }
        if(Userrole!="Teacher") { 
     	   editM.setVisible(false);
-    	   addM.setVisible(false);       }
+    	   addM.setVisible(false);  
+    	   SRrefr.setVisible(false);
+    	   
+       }
        
 	}
 }
