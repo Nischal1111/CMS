@@ -2,6 +2,8 @@ package CMS;
 
 import java.awt.EventQueue;
 
+import java.sql.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,12 +11,17 @@ import java.awt.CardLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import javax.swing.JPasswordField;
 
 public class Dashboard extends JFrame {
 
@@ -23,16 +30,25 @@ public class Dashboard extends JFrame {
 	private JTabbedPane tabbedPane;
 	private JTextField textField;
 	private CourseDisplayPanel courseDisplay;
-	private static String loggedInFullName;
-	private static String loggedEmail;
-	private static String Userrole;
 	private JTextField textField_1;
 	private TeacherDisplay teacherdisplay;
 	private StudentDisplay studentdisplay;
 	private AdminDisplay ad;
+	private ResultTable rd; 
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JTextField txtNischalNeupane;
+	private JTextField textField_5;
+	private JTextField txtNischalgmailcom;
+	private JPasswordField oldPassword;
+	private JPasswordField newPassword;
 
+	private static String loggedInFullName;
+	private static String loggedEmail;
+	private static String Userrole;
+	private static String loggedPassword;
+	private static String loggedPhone;
+	private static int loggedID;
 
 	/**
 	 * Launch the application.
@@ -41,7 +57,7 @@ public class Dashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard frame = new Dashboard(loggedInFullName,Userrole,loggedEmail);
+					Dashboard frame = new Dashboard(loggedInFullName,Userrole,loggedEmail,loggedPassword,loggedPhone,loggedID);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,11 +70,15 @@ public class Dashboard extends JFrame {
 	 * Create the frame
 	 */
 
-	public Dashboard(String fullName, String role,String email){
+	public Dashboard(String fullName, String role,String email,String Password,String Phone,int ID){
 		
 		loggedInFullName = fullName;
 		Userrole=role;
 		loggedEmail=email;
+		loggedPassword=Password;
+		loggedPhone=Phone;
+		loggedID=ID;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 882, 630);
 		contentPane = new JPanel();
@@ -70,7 +90,7 @@ public class Dashboard extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(105, 105, 105));
-		panel.setBounds(6, 6, 145, 578);
+		panel.setBounds(6, 6, 145, 590);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -80,7 +100,7 @@ public class Dashboard extends JFrame {
 				tabbedPane.setSelectedIndex(0);
 			}
 		});
-		btnNewButton.setBounds(6, 117, 133, 40);
+		btnNewButton.setBounds(6, 100, 133, 40);
 		btnNewButton.setBackground(new Color(224, 255, 255));
 		panel.add(btnNewButton);
 		
@@ -90,7 +110,7 @@ public class Dashboard extends JFrame {
 				tabbedPane.setSelectedIndex(1);
 			}
 		});
-		btnNewButton_1.setBounds(6, 169, 133, 40);
+		btnNewButton_1.setBounds(6, 141, 133, 40);
 		panel.add(btnNewButton_1);
 		
 		JPanel panel_6 = new JPanel();
@@ -111,7 +131,7 @@ public class Dashboard extends JFrame {
 				tabbedPane.setSelectedIndex(2);
 			}
 		});
-		btnNewButton_2.setBounds(6, 221, 133, 45);
+		btnNewButton_2.setBounds(6, 182, 133, 45);
 		panel.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Students");
@@ -120,7 +140,7 @@ public class Dashboard extends JFrame {
 				tabbedPane.setSelectedIndex(3);
 			}
 		});
-		btnNewButton_3.setBounds(6, 278, 133, 40);
+		btnNewButton_3.setBounds(6, 227, 133, 40);
 		panel.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Logout");
@@ -131,7 +151,7 @@ public class Dashboard extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_4.setBounds(6, 529, 133, 43);
+		btnNewButton_4.setBounds(6, 541, 133, 43);
 		panel.add(btnNewButton_4);
 		
 		JButton btnNewButton_3_1 = new JButton("Admins");
@@ -140,7 +160,7 @@ public class Dashboard extends JFrame {
 				tabbedPane.setSelectedIndex(4);
 			}
 		});
-		btnNewButton_3_1.setBounds(6, 325, 133, 40);
+		btnNewButton_3_1.setBounds(6, 267, 133, 40);
 		panel.add(btnNewButton_3_1);
 		
 		JButton btnNewButton_4_1 = new JButton("Settings");
@@ -149,8 +169,18 @@ public class Dashboard extends JFrame {
 				
 			}
 		});
-		btnNewButton_4_1.setBounds(6, 487, 133, 43);
+		btnNewButton_4_1.setBounds(6, 498, 133, 43);
 		panel.add(btnNewButton_4_1);
+		
+		JButton btnNewButton_3_1_1 = new JButton("Student Report");
+		btnNewButton_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StudentID sid = new StudentID();
+				sid.setVisible(true);				
+			}
+		});
+		btnNewButton_3_1_1.setBounds(6, 354, 133, 40);
+		panel.add(btnNewButton_3_1_1);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(163, 18, 713, 578);
@@ -189,7 +219,204 @@ public class Dashboard extends JFrame {
 		panel_7.add(lblNewLabel_4);
 		lblNewLabel_4.setForeground(new Color(255, 250, 240));
 		lblNewLabel_4.setFont(new Font("Times New Roman", Font.PLAIN, 32));
+		
+		JPanel panel_13 = new JPanel();
+		panel_13.setBackground(new Color(240, 255, 255));
+		panel_13.setBounds(6, 90, 680, 114);
+		panel_3.add(panel_13);
+		panel_13.setLayout(null);
+		
+		JLabel lblNewLabel_9 = new JLabel("Hello, This is the User Dashboard where you can find the basic information on courses, students,");
+		lblNewLabel_9.setFont(new Font("Cochin", Font.PLAIN, 16));
+		lblNewLabel_9.setBounds(6, 6, 668, 16);
+		panel_13.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_19 = new JLabel("teachers and admins. In this dashboard you can also edit your self profile in the settings and page");
+		lblNewLabel_19.setFont(new Font("Cochin", Font.PLAIN, 16));
+		lblNewLabel_19.setBounds(6, 34, 668, 16);
+		panel_13.add(lblNewLabel_19);
+		
+		JLabel lblNewLabel_20 = new JLabel("and you can reach out to us through the given neupanenischal2@gmail.com and Phone number in");
+		lblNewLabel_20.setFont(new Font("Cochin", Font.PLAIN, 16));
+		lblNewLabel_20.setBounds(6, 62, 668, 16);
+		panel_13.add(lblNewLabel_20);
+		
+		JLabel lblNewLabel_21 = new JLabel("in case of any technical Issues. Thank You !!!");
+		lblNewLabel_21.setFont(new Font("Cochin", Font.PLAIN, 16));
+		lblNewLabel_21.setBounds(6, 84, 303, 24);
+		panel_13.add(lblNewLabel_21);
+		
+		JPanel panel_14 = new JPanel();
+		panel_14.setBackground(new Color(169, 169, 169));
+		panel_14.setBounds(6, 214, 382, 44);
+		panel_3.add(panel_14);
+		panel_14.setLayout(null);
+		
+		JLabel lblNewLabel_22 = new JLabel("Basic Information:");
+		lblNewLabel_22.setForeground(new Color(65, 105, 225));
+		lblNewLabel_22.setBackground(new Color(128, 0, 128));
+		lblNewLabel_22.setFont(new Font("Cochin", Font.PLAIN, 28));
+		lblNewLabel_22.setBounds(6, 6, 400, 32);
+		panel_14.add(lblNewLabel_22);
+		
+		JPanel panel_15 = new JPanel();
+		panel_15.setBackground(new Color(176, 196, 222));
+		panel_15.setBounds(77, 277, 219, 44);
+		panel_3.add(panel_15);
+		panel_15.setLayout(null);
+		
+		JLabel lblNewLabel_23 = new JLabel("No. of Courses: ");
+		lblNewLabel_23.setFont(new Font("Cochin", Font.PLAIN, 20));
+		lblNewLabel_23.setBounds(6, 6, 155, 30);
+		panel_15.add(lblNewLabel_23);
+		
+		JLabel lblNewLabel_24 = new JLabel("C1");
+		lblNewLabel_24.setForeground(new Color(128, 0, 128));
+		lblNewLabel_24.setFont(new Font("Songti SC", Font.ITALIC, 26));
+		lblNewLabel_24.setBounds(153, 6, 65, 33);
+		panel_15.add(lblNewLabel_24);
+		
+		JPanel panel_15_1 = new JPanel();
+		panel_15_1.setLayout(null);
+		panel_15_1.setBackground(new Color(176, 196, 222));
+		panel_15_1.setBounds(77, 344, 219, 44);
+		panel_3.add(panel_15_1);
+		
+		JLabel lblNewLabel_23_1 = new JLabel("No. of Students: ");
+		lblNewLabel_23_1.setFont(new Font("Cochin", Font.PLAIN, 20));
+		lblNewLabel_23_1.setBounds(6, 6, 155, 30);
+		panel_15_1.add(lblNewLabel_23_1);
+		
+		JLabel lblNewLabel_24_1 = new JLabel("C1");
+		lblNewLabel_24_1.setForeground(new Color(128, 0, 128));
+		lblNewLabel_24_1.setFont(new Font("Songti SC", Font.ITALIC, 26));
+		lblNewLabel_24_1.setBounds(156, 6, 65, 30);
+		panel_15_1.add(lblNewLabel_24_1);
+		
+		JPanel panel_15_2 = new JPanel();
+		panel_15_2.setLayout(null);
+		panel_15_2.setBackground(new Color(176, 196, 222));
+		panel_15_2.setBounds(77, 482, 219, 44);
+		panel_3.add(panel_15_2);
+		
+		JLabel lblNewLabel_23_4 = new JLabel("No. of Admins: ");
+		lblNewLabel_23_4.setFont(new Font("Cochin", Font.PLAIN, 20));
+		lblNewLabel_23_4.setBounds(6, 6, 155, 30);
+		panel_15_2.add(lblNewLabel_23_4);
+		
+		JLabel lblNewLabel_24_3 = new JLabel("C1");
+		lblNewLabel_24_3.setForeground(new Color(128, 0, 128));
+		lblNewLabel_24_3.setFont(new Font("Songti SC", Font.ITALIC, 26));
+		lblNewLabel_24_3.setBounds(154, 0, 65, 41);
+		panel_15_2.add(lblNewLabel_24_3);
+		
+		JPanel panel_15_3 = new JPanel();
+		panel_15_3.setLayout(null);
+		panel_15_3.setBackground(new Color(176, 196, 222));
+		panel_15_3.setBounds(77, 415, 219, 44);
+		panel_3.add(panel_15_3);
+		
+		JLabel lblNewLabel_23_3 = new JLabel("No. of Admins: ");
+		lblNewLabel_23_3.setBounds(-126, -16, 139, 38);
+		panel_15_3.add(lblNewLabel_23_3);
+		lblNewLabel_23_3.setFont(new Font("Cochin", Font.PLAIN, 20));
+		
+		JLabel lblNewLabel_23_2 = new JLabel("No. of Teachers: ");
+		lblNewLabel_23_2.setFont(new Font("Cochin", Font.PLAIN, 20));
+		lblNewLabel_23_2.setBounds(6, 6, 155, 30);
+		panel_15_3.add(lblNewLabel_23_2);
+		
+		JLabel lblNewLabel_24_2 = new JLabel("C1");
+		lblNewLabel_24_2.setForeground(new Color(128, 0, 128));
+		lblNewLabel_24_2.setFont(new Font("Songti SC", Font.ITALIC, 26));
+		lblNewLabel_24_2.setBounds(155, 6, 65, 32);
+		panel_15_3.add(lblNewLabel_24_2);
+		
+		JPanel panel_16 = new JPanel();
+		panel_16.setBackground(new Color(192, 192, 192));
+		panel_16.setBounds(400, 216, 286, 240);
+		panel_3.add(panel_16);
+		panel_16.setLayout(null);
+		
+		JLabel lblNewLabel_25 = new JLabel("Notifications and Updates :");
+		lblNewLabel_25.setFont(new Font("Cochin", Font.PLAIN, 23));
+		lblNewLabel_25.setBounds(6, 6, 274, 28);
+		panel_16.add(lblNewLabel_25);
+		
+		JLabel lblNewLabel_26 = new JLabel("---------------------------------");
+		lblNewLabel_26.setForeground(new Color(128, 128, 128));
+		lblNewLabel_26.setBackground(new Color(248, 248, 255));
+		lblNewLabel_26.setBounds(6, 29, 274, 16);
+		panel_16.add(lblNewLabel_26);
+		
+		JLabel lblNewLabel_27 = new JLabel("-> More Courses are being added this\n");
+		lblNewLabel_27.setBounds(16, 57, 254, 16);
+		panel_16.add(lblNewLabel_27);
+		
+		JLabel lblNewLabel_28 = new JLabel("March.");
+		lblNewLabel_28.setBounds(38, 74, 61, 16);
+		panel_16.add(lblNewLabel_28);
+		
+		JLabel lblNewLabel_29 = new JLabel("-> Modules for level 5 and level 6 are ");
+		lblNewLabel_29.setBounds(16, 102, 257, 16);
+		panel_16.add(lblNewLabel_29);
+		
+		JLabel lblNewLabel_30 = new JLabel("being updated according to Uni.");
+		lblNewLabel_30.setBounds(38, 118, 231, 16);
+		panel_16.add(lblNewLabel_30);
+		
+		JLabel lblNewLabel_31 = new JLabel("-> Four new Instructors are being added");
+		lblNewLabel_31.setBounds(16, 146, 264, 16);
+		panel_16.add(lblNewLabel_31);
+		
+		JLabel lblNewLabel_32 = new JLabel("and 7 instructors have left.\n");
+		lblNewLabel_32.setBounds(38, 163, 248, 16);
+		panel_16.add(lblNewLabel_32);
+		
+		JLabel lblNewLabel_33 = new JLabel("-> The college is organizing a event in\n\n");
+		lblNewLabel_33.setBounds(17, 191, 269, 16);
+		panel_16.add(lblNewLabel_33);
+		
+		JLabel lblNewLabel_34 = new JLabel("the 12th of June in Hyatt Regency.");
+		lblNewLabel_34.setBounds(38, 208, 242, 16);
+		panel_16.add(lblNewLabel_34);
         
+		try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
+            Statement statement = connection.createStatement();
+            
+            // Fetch counts from database
+            ResultSet resultSetCourses = statement.executeQuery("SELECT COUNT(*) AS course_count FROM courses");
+            if (resultSetCourses.next()) {
+                lblNewLabel_24.setText(resultSetCourses.getString("course_count"));
+            }
+            resultSetCourses.close(); // Close the ResultSet
+            
+            ResultSet resultSetStudents = statement.executeQuery("SELECT COUNT(*) AS student_count FROM Student");
+            if (resultSetStudents.next()) {
+                lblNewLabel_24_1.setText(resultSetStudents.getString("student_count"));
+            }
+            resultSetStudents.close(); // Close the ResultSet
+            
+            ResultSet resultSetTeachers = statement.executeQuery("SELECT COUNT(*) AS teacher_count FROM Teacher");
+            if (resultSetTeachers.next()) {
+                lblNewLabel_24_2.setText(resultSetTeachers.getString("teacher_count"));
+            }
+            resultSetTeachers.close(); // Close the ResultSet
+            
+            ResultSet resultSetAdmins = statement.executeQuery("SELECT COUNT(*) AS admin_count FROM Admin");
+            if (resultSetAdmins.next()) {
+                lblNewLabel_24_3.setText(resultSetAdmins.getString("admin_count"));
+            }
+            resultSetAdmins.close(); // Close the ResultSet
+            
+            // Close resources
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle SQL Exception
+        }
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(new Color(238, 238, 238));
@@ -340,7 +567,7 @@ public class Dashboard extends JFrame {
 		panel_5.add(btnNewButton_5_1_1_1_1);
 		
 		studentdisplay = new StudentDisplay();
-		studentdisplay.setBounds(12, 250, 670, 270);
+		studentdisplay.setBounds(16, 224, 670, 302);
 		studentdisplay.setForeground(new Color(0, 0, 0));
         panel_5.add(studentdisplay);
         studentdisplay.setLayout(null);
@@ -536,29 +763,254 @@ public class Dashboard extends JFrame {
         tabbedPane.addTab("Settings", null, panel_12, null);
         panel_12.setLayout(null);
         
-        JLabel lblNewLabel_7 = new JLabel("General Information:");
+        JLabel lblNewLabel_7 = new JLabel("Settings:");
         lblNewLabel_7.setFont(new Font("Cochin", Font.PLAIN, 35));
-        lblNewLabel_7.setBounds(6, 5, 446, 45);
+        lblNewLabel_7.setBounds(25, 9, 446, 45);
         panel_12.add(lblNewLabel_7);
         
         JLabel lblNewLabel_8 = new JLabel("Email");
         lblNewLabel_8.setForeground(new Color(0, 128, 128));
         lblNewLabel_8.setFont(new Font("Cochin", Font.PLAIN, 18));
-        lblNewLabel_8.setBounds(543, 38, 143, 22);
+        lblNewLabel_8.setBounds(560, 26, 143, 23);
         panel_12.add(lblNewLabel_8);
         
-        lblNewLabel_8.setText(loggedEmail);
+        lblNewLabel_8.setText("User: "+Userrole);
         
-        JLabel lblNewLabel_9 = new JLabel("Name");
-        lblNewLabel_9.setForeground(new Color(0, 139, 139));
-        lblNewLabel_9.setFont(new Font("Cochin", Font.PLAIN, 18));
-        lblNewLabel_9.setBounds(543, 5, 143, 32);
-        panel_12.add(lblNewLabel_9);
+        JLabel lblNewLabel_10 = new JLabel("Username:");
+        lblNewLabel_10.setFont(new Font("Cochin", Font.PLAIN, 19));
+        lblNewLabel_10.setBounds(25, 132, 91, 16);
+        panel_12.add(lblNewLabel_10);
         
-        lblNewLabel_9.setText(loggedInFullName);
-		
+        JLabel lblNewLabel_11 = new JLabel("------------------------------------------------------------------------------------");
+        lblNewLabel_11.setForeground(new Color(169, 169, 169));
+        lblNewLabel_11.setBounds(23, 44, 680, 16);
+        panel_12.add(lblNewLabel_11);
         
-		
-		
+        JLabel lblNewLabel_12 = new JLabel("General Information");
+        lblNewLabel_12.setFont(new Font("Cochin", Font.PLAIN, 18));
+        lblNewLabel_12.setBounds(25, 66, 181, 16);
+        panel_12.add(lblNewLabel_12);
+        
+        JLabel lblNewLabel_13 = new JLabel("--------------------");
+        lblNewLabel_13.setForeground(new Color(169, 169, 169));
+        lblNewLabel_13.setBounds(25, 83, 200, 16);
+        panel_12.add(lblNewLabel_13);
+        
+        txtNischalNeupane = new JTextField();
+        txtNischalNeupane.setText("Nischal Neupane");
+        txtNischalNeupane.setBounds(120, 122, 181, 38);
+        panel_12.add(txtNischalNeupane);
+        txtNischalNeupane.setColumns(10);
+        
+        txtNischalNeupane.setText(loggedInFullName);
+        
+        JLabel lblNewLabel_14 = new JLabel("Phone:");
+        lblNewLabel_14.setFont(new Font("Cochin", Font.PLAIN, 19));
+        lblNewLabel_14.setBounds(393, 132, 61, 16);
+        panel_12.add(lblNewLabel_14);
+        
+        textField_5 = new JTextField();
+        textField_5.setBounds(466, 122, 181, 38);
+        panel_12.add(textField_5);
+        textField_5.setColumns(10);
+        
+        textField_5.setText(loggedPhone);
+        
+        JLabel lblNewLabel_15 = new JLabel("Email:");
+        lblNewLabel_15.setFont(new Font("Cochin", Font.PLAIN, 19));
+        lblNewLabel_15.setBounds(25, 197, 61, 16);
+        panel_12.add(lblNewLabel_15);
+        
+        txtNischalgmailcom = new JTextField();
+        txtNischalgmailcom.setText("nischal@gmail.com");
+        txtNischalgmailcom.setBounds(120, 187, 181, 38);
+        panel_12.add(txtNischalgmailcom);
+        txtNischalgmailcom.setColumns(10);
+        
+        txtNischalgmailcom.setText(loggedEmail);
+        
+        JLabel lblNewLabel_12_1 = new JLabel("Security and Login:");
+        lblNewLabel_12_1.setFont(new Font("Cochin", Font.PLAIN, 18));
+        lblNewLabel_12_1.setBounds(25, 281, 181, 22);
+        panel_12.add(lblNewLabel_12_1);
+        
+        JLabel lblNewLabel_13_1 = new JLabel("-------------------");
+        lblNewLabel_13_1.setForeground(new Color(169, 169, 169));
+        lblNewLabel_13_1.setBounds(25, 303, 200, 16);
+        panel_12.add(lblNewLabel_13_1);
+        
+        JLabel lblNewLabel_16 = new JLabel("Old Password:");
+        lblNewLabel_16.setFont(new Font("Cochin", Font.PLAIN, 19));
+        lblNewLabel_16.setBounds(25, 356, 117, 16);
+        panel_12.add(lblNewLabel_16);
+        
+        oldPassword = new JPasswordField();
+        oldPassword.setToolTipText("");
+        oldPassword.setBounds(143, 346, 158, 38);
+        panel_12.add(oldPassword);
+        
+        JLabel lblNewLabel_17 = new JLabel("Change Password:");
+        lblNewLabel_17.setFont(new Font("Cochin", Font.PLAIN, 19));
+        lblNewLabel_17.setBounds(382, 348, 151, 32);
+        panel_12.add(lblNewLabel_17);
+        
+        newPassword = new JPasswordField();
+        newPassword.setBounds(530, 346, 156, 38);
+        panel_12.add(newPassword);
+        
+        JLabel lblNewLabel_12_1_1 = new JLabel("Help & Services");
+        lblNewLabel_12_1_1.setFont(new Font("Cochin", Font.PLAIN, 18));
+        lblNewLabel_12_1_1.setBounds(27, 410, 134, 22);
+        panel_12.add(lblNewLabel_12_1_1);
+        
+        JLabel lblNewLabel_13_1_1 = new JLabel("----------------");
+        lblNewLabel_13_1_1.setForeground(new Color(169, 169, 169));
+        lblNewLabel_13_1_1.setBounds(25, 433, 200, 16);
+        panel_12.add(lblNewLabel_13_1_1);
+        
+        JLabel lblNewLabel_18 = new JLabel("Guidelines for Students ?");
+        lblNewLabel_18.setForeground(new Color(100, 149, 237));
+        lblNewLabel_18.setBounds(25, 461, 168, 16);
+        panel_12.add(lblNewLabel_18);
+        
+        JLabel lblNewLabel_18_1 = new JLabel("Report Technical Issues ?");
+        lblNewLabel_18_1.setForeground(new Color(100, 149, 237));
+        lblNewLabel_18_1.setBounds(25, 489, 168, 16);
+        panel_12.add(lblNewLabel_18_1);
+        
+        JLabel lblNewLabel_18_2 = new JLabel("Email: heraldcollege@edu.np");
+        lblNewLabel_18_2.setForeground(new Color(100, 149, 237));
+        lblNewLabel_18_2.setBounds(393, 461, 191, 16);
+        panel_12.add(lblNewLabel_18_2);
+        
+        JLabel lblNewLabel_18_3 = new JLabel("Tel No. : 040 050 060");
+        lblNewLabel_18_3.setForeground(new Color(100, 149, 237));
+        lblNewLabel_18_3.setBounds(395, 489, 168, 16);
+        panel_12.add(lblNewLabel_18_3);
+        
+        JButton btnNewButton_11 = new JButton("Edit Profile");
+        btnNewButton_11.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {        		
+        		String NewName=txtNischalNeupane.getText();
+        		String NewPhone=textField_5.getText();
+        		String NewEmail=txtNischalgmailcom.getText();
+        		
+        		String regexLN = "([A-Z]{1}[a-z]+)( )([A-Z]{1}[a-z]+)";
+                Pattern Lname = Pattern.compile(regexLN);
+                Matcher LN = Lname.matcher(NewName);
+                boolean Nname = LN.matches();
+                
+                
+                String regexEmail =  "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+                Pattern verifyEmail = Pattern.compile(regexEmail);
+                Matcher eM = verifyEmail.matcher(NewEmail);
+                boolean CEmail = eM.matches();
+                
+                if(Nname==true&&CEmail==true) {
+        		
+        		try {
+		            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
+
+		            String query = "UPDATE "+ Userrole + " SET Fullname=?, Email=?, Phone=? WHERE "+ Userrole+"ID="+loggedID;
+		            
+		            PreparedStatement stmt = connection.prepareStatement(query);
+
+		            stmt.setString(1, NewName);
+		            stmt.setString(2, NewEmail);
+		            stmt.setString(3, NewPhone);
+		            
+
+		            int edited = stmt.executeUpdate();
+
+		            if (edited > 0) {
+		                JOptionPane.showMessageDialog(null, "Profile Updated!!!");
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Failed.");
+		            }
+		            stmt.close();
+		            connection.close();
+		        } catch (SQLException ex) {
+		            ex.printStackTrace();
+		        }
+        	}
+        	}});
+        
+        
+        btnNewButton_11.setBounds(290, 248, 117, 43);
+        panel_12.add(btnNewButton_11);
+        
+        JButton btnNewButton_12 = new JButton("Change");
+        btnNewButton_12.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		String Pass = oldPassword.getText();
+        		boolean checkPass=Pass.equals(loggedPassword);
+        		
+        		if(checkPass==true) {
+        			String Newpass = newPassword.getText();
+        			
+        			try {
+    		            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
+
+    		            String query = "UPDATE "+ Userrole + " SET Password=? WHERE "+ Userrole+"ID="+loggedID;
+    		            
+    		            PreparedStatement stmt = connection.prepareStatement(query);
+
+    		            stmt.setString(1, Newpass);
+    		            
+
+    		            int changed = stmt.executeUpdate();
+
+    		            if (changed > 0) {
+    		                JOptionPane.showMessageDialog(null, "Password Changed!!!");
+    		            } else {
+    		                JOptionPane.showMessageDialog(null, "Failed !!!.");
+    		            }
+    		            stmt.close();
+    		            connection.close();
+    		        } catch (SQLException ex) {
+    		            ex.printStackTrace();
+    		        }
+        			
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Old Password is Incorrect !!!.");
+        		}
+        		
+        	}
+        });
+        btnNewButton_12.setBounds(301, 392, 91, 47);
+        panel_12.add(btnNewButton_12);	
+        
+        JPanel panel_17 = new JPanel();
+        tabbedPane.addTab("Student ", null, panel_17, null);
+        panel_17.setLayout(null);
+        
+        JPanel panel_18 = new JPanel();
+        panel_18.setBackground(new Color(255, 192, 203));
+        panel_18.setBounds(6, 5, 680, 61);
+        panel_17.add(panel_18);
+        panel_18.setLayout(null);
+        
+        JLabel lblNewLabel_35 = new JLabel("Student's Result");
+        lblNewLabel_35.setForeground(new Color(138, 43, 226));
+        lblNewLabel_35.setFont(new Font("Cochin", Font.PLAIN, 36));
+        lblNewLabel_35.setBounds(216, 6, 364, 49);
+        panel_18.add(lblNewLabel_35);
+        
+        JButton btnNewButton_13 = new JButton("Edit Marks");
+        btnNewButton_13.setBounds(444, 88, 127, 54);
+        panel_17.add(btnNewButton_13);
+        
+        JButton btnNewButton_13_1 = new JButton("Add Marks");
+        btnNewButton_13_1.setBounds(112, 88, 127, 54);
+        panel_17.add(btnNewButton_13_1);
+        
+        rd = new ResultTable();
+		rd.setBounds(6, 172, 680, 223);
+		rd.setForeground(new Color(0, 0, 0));
+        panel_17.add(rd);
+        rd.setLayout(null);
+        
+        
 	}
 }

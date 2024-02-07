@@ -1,5 +1,6 @@
 package CMS;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,23 +18,27 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JScrollPane;
 
-public class StudentDisplay extends JPanel {
+public class ResultTable extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JTable table;
+    private static final long serialVersionUID = 1L;
+    private JTable table;
 
-	/**
-	 * Create the panel.
-	 */
-	public StudentDisplay() {
-		setLayout(null);
-		
-		DefaultTableModel model = new DefaultTableModel();
+    /**
+     * Create the panel.
+     */
+    public ResultTable() {
+        setLayout(null); // Avoid using null layout, instead use layout managers
+
+        DefaultTableModel model = new DefaultTableModel();
 
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
             Statement stmt = con.createStatement();
-            String query = "Select StudentID,FullName,Email,Phone,Level,Course from Student";
+            
+            String query = "SELECT s.StudentId, s.fullname, s.level, r.module_1, r.mark_1, r.module_2, r.mark_2, r.module_3, r.mark_3, r.percentage, r.result "
+                         + "FROM Student s "
+                         + "JOIN Result r ON s.StudentID = r.StudentId";
+            
             ResultSet rs = stmt.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -56,31 +61,25 @@ public class StudentDisplay extends JPanel {
             e.printStackTrace();
         }
         
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 676, 300);
-		add(scrollPane);
-		
-		table = new JTable(model);
-		scrollPane.setViewportView(table);
-		
-		table.setRowSelectionAllowed(false);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(0, 0, 1017, 317);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        add(scrollPane, BorderLayout.CENTER);
+        x
+        table = new JTable(model);
+        scrollPane.setViewportView(table);
+        
         table.setFont(new Font("Niramit", Font.PLAIN, 13));
         table.setForeground(new Color(0, 0, 0));
         table.setBackground(new Color(238, 238, 238));
 
-        TableColumnModel columnModel = table.getColumnModel();
-
-        columnModel.getColumn(0).setPreferredWidth(20);
-        columnModel.getColumn(1).setPreferredWidth(130);
-        columnModel.getColumn(2).setPreferredWidth(60);
-        columnModel.getColumn(3).setPreferredWidth(30);
-        columnModel.getColumn(4).setPreferredWidth(20);
-        columnModel.getColumn(5).setPreferredWidth(150);
 
         table.setShowGrid(true);
         table.setShowHorizontalLines(true);
         table.setShowVerticalLines(true);
         table.setGridColor(Color.BLACK);
+        
 
         table.setRowHeight(30);
 
@@ -89,5 +88,5 @@ public class StudentDisplay extends JPanel {
         header.setPreferredSize(new Dimension(header.getWidth(), 30)); 
         table.setIntercellSpacing(new java.awt.Dimension(7, 7));
 
-	}
+    }
 }

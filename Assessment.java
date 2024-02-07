@@ -63,7 +63,7 @@ public class Assessment extends JFrame {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                    	return new String[]{resultSet.getString("fullname"), role,resultSet.getString("Email")};
+                    	return new String[]{resultSet.getString("fullname"), role,resultSet.getString("Email"),resultSet.getString("password"),resultSet.getString("Phone"),resultSet.getString(role+"ID")};
                     }
                 }
 
@@ -112,10 +112,14 @@ public class Assessment extends JFrame {
                     String userFullName = loginResult[0];
                     String userRole = loginResult[1];
                     String userEmail= loginResult[2];
+                    String userPassword=loginResult[3];
+                    String userPhone=loginResult[4];
+                    int userID=Integer.parseInt(loginResult[5]);
+                    
 
                     JOptionPane.showMessageDialog(null, "Logged in as " + userRole);
 
-                    Dashboard dashboard = new Dashboard(userFullName, userRole,userEmail);
+                    Dashboard dashboard = new Dashboard(userFullName, userRole,userEmail,userPassword,userPhone,userID);
                     dashboard.setVisible(true);
 
                     dispose();
