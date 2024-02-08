@@ -998,18 +998,43 @@ public class Dashboard extends JFrame {
         panel_18.add(lblNewLabel_35);
         
         JButton btnNewButton_13 = new JButton("Edit Marks");
-        btnNewButton_13.setBounds(444, 88, 127, 54);
+        btnNewButton_13.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		EditMarks em=new EditMarks();
+        		em.setVisible(true);
+        	}
+        });
+        btnNewButton_13.setBounds(309, 88, 127, 54);
         panel_17.add(btnNewButton_13);
         
         JButton btnNewButton_13_1 = new JButton("Add Marks");
+        btnNewButton_13_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		AddMarks am = new AddMarks();
+        		am.setVisible(true);
+        	}
+        });
         btnNewButton_13_1.setBounds(112, 88, 127, 54);
         panel_17.add(btnNewButton_13_1);
         
         rd = new ResultTable();
-		rd.setBounds(6, 172, 680, 223);
+		rd.setBounds(6, 172, 676, 354);
 		rd.setForeground(new Color(0, 0, 0));
         panel_17.add(rd);
         rd.setLayout(null);
+        
+        JButton btnNewButton_4_1_1 = new JButton("Refresh Page");
+        btnNewButton_4_1_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		rd = new ResultTable();
+        		rd.setBounds(6, 172, 676, 223);
+        		rd.setForeground(new Color(0, 0, 0));
+                panel_17.add(rd);
+                rd.setLayout(null);
+        	}
+        });
+        btnNewButton_4_1_1.setBounds(516, 88, 133, 49);
+        panel_17.add(btnNewButton_4_1_1);
         
         
 	}

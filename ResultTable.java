@@ -63,21 +63,15 @@ public class ResultTable extends JPanel {
         
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(0, 0, 1017, 317);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        add(scrollPane, BorderLayout.CENTER);
-        x
+        add(scrollPane);
+        
         table = new JTable(model);
+        table.setRowSelectionAllowed(false);
         scrollPane.setViewportView(table);
         
         table.setFont(new Font("Niramit", Font.PLAIN, 13));
         table.setForeground(new Color(0, 0, 0));
         table.setBackground(new Color(238, 238, 238));
-
-
-        table.setShowGrid(true);
-        table.setShowHorizontalLines(true);
-        table.setShowVerticalLines(true);
         table.setGridColor(Color.BLACK);
         
 
