@@ -127,6 +127,7 @@ public class AddTeacher extends JFrame {
 
 		                if (added > 0) {
 		                    JOptionPane.showMessageDialog(null,"Teacher Added !!!");
+		                    
 		                } else {
 		                	JOptionPane.showMessageDialog(null,"Failed !!!");
 		                }

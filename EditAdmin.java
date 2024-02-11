@@ -135,6 +135,7 @@ public class EditAdmin extends JFrame {
 
 		            if (edited > 0) {
 		                JOptionPane.showMessageDialog(null, "Admin Details Updated!!!");
+		               
 		            } else {
 		                JOptionPane.showMessageDialog(null, "Admin ID not found.");
 		            }

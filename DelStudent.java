@@ -77,6 +77,7 @@ public class DelStudent extends JFrame {
 
                         if (del > 0) {
                             JOptionPane.showMessageDialog(null, "Student Info Deleted !!!");
+                            
                         } else {
                             JOptionPane.showMessageDialog(null, "Student ID not found!!!");
                         }

@@ -129,6 +129,7 @@ public class EditCourse extends JFrame {
 
 		            if (edited > 0) {
 		                JOptionPane.showMessageDialog(null, "Course Updated!!!");
+		                
 		            } else {
 		                JOptionPane.showMessageDialog(null, "Course ID not found.");
 		            }

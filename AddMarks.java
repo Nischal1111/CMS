@@ -202,12 +202,18 @@ public class AddMarks extends JFrame {
 		            pstmt.setFloat(8, percentage);
 		            pstmt.setString(9, result);
 
-		            pstmt.executeUpdate();
+		            int added = pstmt.executeUpdate();
+		            
+		            if(added>1) {
+		            JOptionPane.showMessageDialog(null,"Marks added successfully.");
+		            
+				}else {
+					JOptionPane.showMessageDialog(null,"Failed to Add.");
+				}
 		            
 		            pstmt.close();
 		            con.close();
 		            
-		            JOptionPane.showMessageDialog(null,"Marks added successfully.");
 		            
 		        } catch (SQLException ex) {
 		            ex.printStackTrace();

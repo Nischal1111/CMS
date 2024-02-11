@@ -152,6 +152,7 @@ public class AddCourse extends JFrame {
 
 		                if (added > 0) {
 		                	JOptionPane.showMessageDialog(null,"Course Added !!!");
+		                	
 		                } else {
 		                	JOptionPane.showMessageDialog(null,"Failed !!!");
 		                }

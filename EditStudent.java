@@ -149,6 +149,7 @@ public class EditStudent extends JFrame {
 
                         if (updated > 0) {
                             JOptionPane.showMessageDialog(null, "Student Details Edited !!!");
+                           
                         } else {
                             JOptionPane.showMessageDialog(null, "Failed !!!");
                         }

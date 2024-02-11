@@ -128,6 +128,7 @@ public class AddAdmin extends JFrame {
 
 		                if (added > 0) {
 		                    JOptionPane.showMessageDialog(null,"Admin Added !!!");
+		                  
 		                } else {
 		                	JOptionPane.showMessageDialog(null,"Failed !!!");
 		                }

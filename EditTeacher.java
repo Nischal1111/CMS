@@ -135,6 +135,7 @@ public class EditTeacher extends JFrame {
 
 		            if (edited > 0) {
 		                JOptionPane.showMessageDialog(null, "Teacher Details Updated!!!");
+		             
 		            } else {
 		                JOptionPane.showMessageDialog(null, "Teacher ID not found.");
 		            }

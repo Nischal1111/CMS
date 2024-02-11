@@ -149,6 +149,7 @@ public class AddStudent extends JFrame {
 
 		                if (added > 0) {
 		                    JOptionPane.showMessageDialog(null,"Student Details Added !!!");
+		                    
 		                } else {
 		                	JOptionPane.showMessageDialog(null,"Failed !!!");
 		                }

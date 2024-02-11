@@ -13,6 +13,7 @@ import java.sql.Statement;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
@@ -27,8 +28,8 @@ public class ResultTable extends JPanel {
      * Create the panel.
      */
     public ResultTable() {
-        setLayout(null); // Avoid using null layout, instead use layout managers
-
+        setLayout(null);
+        
         DefaultTableModel model = new DefaultTableModel();
 
         try {
@@ -62,10 +63,11 @@ public class ResultTable extends JPanel {
         }
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(0, 0, 1017, 317);
+        scrollPane.setBounds(0, 0, 789, 421);
         add(scrollPane);
         
         table = new JTable(model);
+        table.setFillsViewportHeight(true);
         table.setRowSelectionAllowed(false);
         scrollPane.setViewportView(table);
         
@@ -73,7 +75,7 @@ public class ResultTable extends JPanel {
         table.setForeground(new Color(0, 0, 0));
         table.setBackground(new Color(238, 238, 238));
         table.setGridColor(Color.BLACK);
-        
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         table.setRowHeight(30);
 
@@ -81,6 +83,7 @@ public class ResultTable extends JPanel {
         header.setVisible(true);
         header.setPreferredSize(new Dimension(header.getWidth(), 30)); 
         table.setIntercellSpacing(new java.awt.Dimension(7, 7));
-
+        
     }
 }
+

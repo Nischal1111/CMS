@@ -120,9 +120,10 @@ public class Assessment extends JFrame {
                     JOptionPane.showMessageDialog(null, "Logged in as " + userRole);
 
                     Dashboard dashboard = new Dashboard(userFullName, userRole,userEmail,userPassword,userPhone,userID);
+                    dispose();
                     dashboard.setVisible(true);
 
-                    dispose();
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid username or password.");
                 }

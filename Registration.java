@@ -206,9 +206,14 @@ public class Registration extends JFrame {
                 Matcher pN = passN.matcher(pass);
                 boolean passNew = pN.matches();
                 
+                String regexPhone = "^\\d+$";
+                Pattern PhoneN = Pattern.compile(regexPhone);
+                Matcher phoneMatch = PhoneN.matcher(Phone);
+                boolean checkPhone = phoneMatch.matches();
+                
 				
                 if (!FullName.equals("") && !Email.equals("") && !pass.equals("") && !Confirmpw.equals("")&&!Phone.equals("")) {
-                    if ( lname == true && passNew == true && Confirmpw.equals(pass)) {
+                    if ( lname == true && passNew == true && Confirmpw.equals(pass)&&checkEmail==true &&checkPhone==true) {
                         registerUser(Email, pass, role,FullName,level,course,Phone);
                         Assessment login = new Assessment();
                         login.setVisible(true);
@@ -268,8 +273,9 @@ public class Registration extends JFrame {
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Assessment login = new Assessment();
-				login.setVisible(true);
 				dispose();
+				login.setVisible(true);
+				
 			}
 		});
 		login.setBounds(348, 397, 92, 46);

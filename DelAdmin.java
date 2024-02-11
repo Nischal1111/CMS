@@ -77,6 +77,7 @@ public class DelAdmin extends JFrame {
 
                         if (del > 0) {
                             JOptionPane.showMessageDialog(null, "Admin Info Deleted !!!");
+                            
                         } else {
                             JOptionPane.showMessageDialog(null, "Admin ID not found!!!");
                         }

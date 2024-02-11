@@ -77,6 +77,7 @@ public class DelTeacher extends JFrame {
 
                         if (del > 0) {
                             JOptionPane.showMessageDialog(null, "Teacher Info Deleted !!!");
+                            
                         } else {
                             JOptionPane.showMessageDialog(null, "Teacher not found!!!");
                         }

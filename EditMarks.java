@@ -206,6 +206,7 @@ public class EditMarks extends JFrame {
 		            
 		            if (rowsAffected > 0) {
 		                JOptionPane.showMessageDialog(null, "Marks updated successfully.");
+		                
 		            } else {
 		                JOptionPane.showMessageDialog(null, "No records found for the provided Student ID.");
 		            }

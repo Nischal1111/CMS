@@ -77,6 +77,7 @@ public class DelCourse extends JFrame {
 
                         if (del > 0) {
                             JOptionPane.showMessageDialog(null, "Course Deleted !!!");
+                            
                         } else {
                             JOptionPane.showMessageDialog(null, "Course not found!!!");
                         }
