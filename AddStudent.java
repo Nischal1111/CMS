@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
 
 public class AddStudent extends JFrame {
 
@@ -30,6 +31,7 @@ public class AddStudent extends JFrame {
 	private JTextField textField_3;
 	private JComboBox comboBox;
 	private JComboBox comboBox_1;
+	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
 	 */
@@ -51,7 +53,7 @@ public class AddStudent extends JFrame {
 	 */
 	public AddStudent() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 530, 507);
+		setBounds(100, 100, 530, 536);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -71,7 +73,7 @@ public class AddStudent extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(176, 196, 222));
-		panel_1.setBounds(6, 88, 517, 385);
+		panel_1.setBounds(6, 88, 517, 414);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -116,13 +118,17 @@ public class AddStudent extends JFrame {
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"4", "5", "6"}));
-		comboBox.setBounds(29, 216, 179, 27);
+		comboBox.setBounds(29, 281, 179, 27);
 		panel_1.add(comboBox);
 		
 		comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"BSc(Hons) Computer Science", "Bachelor in Intl Business Management", "Master of Business Administration", "Bachelors in Computer Application"}));
 		comboBox_1.setBounds(271, 216, 240, 27);
 		panel_1.add(comboBox_1);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(29, 216, 179, 25);
+		panel_1.add(passwordField);
 		
 		JButton btnNewButton = new JButton("Add Student");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -133,9 +139,10 @@ public class AddStudent extends JFrame {
 		        String Phone = textField_3.getText();
 		        String level = (String) comboBox.getSelectedItem();		
 		        String course = (String) comboBox_1.getSelectedItem();
+		        String password=passwordField.getText();
 		        
 		        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "")) {
-		            String sql = "INSERT INTO Student (StudentID, Fullname, Email, Phone,Level,Course) VALUES (?, ?, ?, ?,?,?)";
+		            String sql = "INSERT INTO Student (StudentID, Fullname, Email, Phone,Level,Course,password) VALUES (?, ?, ?, ?,?,?,?)";
 
 		            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 		                stmt.setString(1, teacherId);
@@ -144,6 +151,7 @@ public class AddStudent extends JFrame {
 		                stmt.setString(4, Phone);
 		                stmt.setString(5, level);
 		                stmt.setString(6, course);
+		                stmt.setString(7,password);
 
 		                int added = stmt.executeUpdate();
 
@@ -159,7 +167,7 @@ public class AddStudent extends JFrame {
 		        }
 			}
 		});
-		btnNewButton.setBounds(186, 270, 117, 48);
+		btnNewButton.setBounds(187, 320, 117, 48);
 		panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("GO");
@@ -168,11 +176,11 @@ public class AddStudent extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(207, 341, 67, 38);
+		btnNewButton_1.setBounds(208, 370, 67, 38);
 		panel_1.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_6 = new JLabel("Go to Student  -->");
-		lblNewLabel_6.setBounds(79, 351, 129, 16);
+		lblNewLabel_6.setBounds(78, 380, 129, 16);
 		panel_1.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_4 = new JLabel("Phone:");
@@ -182,13 +190,18 @@ public class AddStudent extends JFrame {
 		
 		JLabel lblNewLabel_5 = new JLabel("Level:");
 		lblNewLabel_5.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_5.setBounds(29, 187, 61, 16);
+		lblNewLabel_5.setBounds(29, 253, 61, 16);
 		panel_1.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_7 = new JLabel("Course:");
 		lblNewLabel_7.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		lblNewLabel_7.setBounds(271, 188, 61, 16);
 		panel_1.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_5_1 = new JLabel("Password:");
+		lblNewLabel_5_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_5_1.setBounds(29, 189, 105, 16);
+		panel_1.add(lblNewLabel_5_1);
 		
 		
 	}

@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
 
 public class AddAdmin extends JFrame {
 
@@ -28,6 +29,7 @@ public class AddAdmin extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +51,7 @@ public class AddAdmin extends JFrame {
 	 */
 	public AddAdmin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 367, 531);
+		setBounds(100, 100, 369, 612);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -70,7 +72,7 @@ public class AddAdmin extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(176, 196, 222));
-		panel_1.setBounds(6, 88, 354, 404);
+		panel_1.setBounds(6, 88, 354, 490);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -107,6 +109,16 @@ public class AddAdmin extends JFrame {
 		panel_1.add(textField_2);
 		textField_2.setColumns(10);
 		
+		textField_3 = new JTextField();
+		textField_3.setBackground(new Color(255, 245, 238));
+		textField_3.setBounds(29, 321, 220, 28);
+		panel_1.add(textField_3);
+		textField_3.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(29, 253, 220, 28);
+		panel_1.add(passwordField);
+		
 		JButton btnNewButton = new JButton("Add Admin");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,16 +126,18 @@ public class AddAdmin extends JFrame {
 		        String teacherName = textField_1.getText();
 		        String Email = textField_2.getText();
 		        String Phone = textField_3.getText();
+		        String Password=passwordField.getText();
 
 		        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "")) {
-		            String sql = "INSERT INTO Admin (AdminID, Fullname, Email, Phone) VALUES (?, ?, ?, ?)";
+		            String sql = "INSERT INTO Admin (AdminID, Fullname, Email, Phone,password) VALUES (?, ?, ?, ?,?)";
 
 		            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 		                stmt.setString(1, teacherId);
 		                stmt.setString(2, teacherName);
 		                stmt.setString(3, Email);
 		                stmt.setString(4, Phone);
-
+		                stmt.setString(5, Password);
+		                
 		                int added = stmt.executeUpdate();
 
 		                if (added > 0) {
@@ -138,7 +152,7 @@ public class AddAdmin extends JFrame {
 		        }
 			}
 		});
-		btnNewButton.setBounds(112, 300, 117, 48);
+		btnNewButton.setBounds(113, 361, 117, 48);
 		panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("GO");
@@ -147,23 +161,25 @@ public class AddAdmin extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(145, 360, 67, 38);
+		btnNewButton_1.setBounds(139, 424, 67, 38);
 		panel_1.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_6 = new JLabel("Go to Admin -->");
-		lblNewLabel_6.setBounds(16, 370, 129, 16);
+		lblNewLabel_6.setBounds(17, 434, 129, 16);
 		panel_1.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_4 = new JLabel("Phone:");
 		lblNewLabel_4.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_4.setBounds(29, 225, 61, 16);
+		lblNewLabel_4.setBounds(29, 293, 61, 16);
 		panel_1.add(lblNewLabel_4);
 		
-		textField_3 = new JTextField();
-		textField_3.setBackground(new Color(255, 245, 238));
-		textField_3.setBounds(29, 253, 220, 28);
-		panel_1.add(textField_3);
-		textField_3.setColumns(10);
-	}
 
+		
+		JLabel lblNewLabel_4_1 = new JLabel("Password:");
+		lblNewLabel_4_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_4_1.setBounds(29, 225, 117, 16);
+		panel_1.add(lblNewLabel_4_1);
+	
+		
+	}
 }

@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
 
 public class AddTeacher extends JFrame {
 
@@ -28,6 +29,7 @@ public class AddTeacher extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +51,7 @@ public class AddTeacher extends JFrame {
 	 */
 	public AddTeacher() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 367, 531);
+		setBounds(100, 100, 367, 592);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -69,7 +71,7 @@ public class AddTeacher extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(176, 196, 222));
-		panel_1.setBounds(6, 88, 354, 404);
+		panel_1.setBounds(6, 88, 354, 471);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -137,7 +139,7 @@ public class AddTeacher extends JFrame {
 		        }
 			}
 		});
-		btnNewButton.setBounds(112, 300, 117, 48);
+		btnNewButton.setBounds(92, 361, 117, 48);
 		panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("GO");
@@ -146,23 +148,32 @@ public class AddTeacher extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(145, 360, 67, 38);
+		btnNewButton_1.setBounds(156, 431, 67, 38);
 		panel_1.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_6 = new JLabel("Go to Teacher  -->");
-		lblNewLabel_6.setBounds(16, 370, 129, 16);
+		lblNewLabel_6.setBounds(29, 441, 129, 16);
 		panel_1.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_4 = new JLabel("Phone:");
 		lblNewLabel_4.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_4.setBounds(29, 225, 61, 16);
+		lblNewLabel_4.setBounds(29, 293, 61, 16);
 		panel_1.add(lblNewLabel_4);
 		
 		textField_3 = new JTextField();
 		textField_3.setBackground(new Color(255, 245, 238));
-		textField_3.setBounds(29, 253, 220, 28);
+		textField_3.setBounds(29, 321, 220, 28);
 		panel_1.add(textField_3);
 		textField_3.setColumns(10);
+		
+		JLabel lblNewLabel_4_1 = new JLabel("Password:");
+		lblNewLabel_4_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_4_1.setBounds(29, 225, 117, 16);
+		panel_1.add(lblNewLabel_4_1);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(29, 253, 220, 28);
+		panel_1.add(passwordField);
 	}
 
 }

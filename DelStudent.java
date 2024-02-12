@@ -61,31 +61,37 @@ public class DelStudent extends JFrame {
         JButton btnNewButton = new JButton("Delete");
         btnNewButton.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-                String courseId = textField.getText();
+        	public void actionPerformed(ActionEvent e) {
+        	    String studentId = textField.getText();
 
-                try {
-                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
+        	    try {
+        	        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
 
-                    String sql = "DELETE FROM Student WHERE StudentID = ?";
+        	        // First, delete related records in the Result table
+        	        String deleteResultSql = "DELETE FROM Result WHERE StudentId = ?";
+        	        try (PreparedStatement deleteResultStatement = connection.prepareStatement(deleteResultSql)) {
+        	            deleteResultStatement.setString(1, studentId);
+        	            deleteResultStatement.executeUpdate();
+        	        }
 
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        	        // Now, delete the student record
+        	        String deleteStudentSql = "DELETE FROM Student WHERE StudentID = ?";
+        	        try (PreparedStatement deleteStudentStatement = connection.prepareStatement(deleteStudentSql)) {
+        	            deleteStudentStatement.setString(1, studentId);
 
-                        preparedStatement.setString(1, courseId);
+        	            int del = deleteStudentStatement.executeUpdate();
 
-                        int del = preparedStatement.executeUpdate();
+        	            if (del > 0) {
+        	                JOptionPane.showMessageDialog(null, "Student Info Deleted !!!");
+        	            } else {
+        	                JOptionPane.showMessageDialog(null, "Student ID not found!!!");
+        	            }
+        	        }
+        	    } catch (SQLException err) {
+        	        err.printStackTrace();
+        	    }
+        	}
 
-                        if (del > 0) {
-                            JOptionPane.showMessageDialog(null, "Student Info Deleted !!!");
-                            
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Student ID not found!!!");
-                        }
-                    }
-                } catch (SQLException err) {
-                    err.printStackTrace();
-                }
-            }
         });
         btnNewButton.setForeground(new Color(255, 0, 0));
         btnNewButton.setBackground(new Color(255, 0, 0));

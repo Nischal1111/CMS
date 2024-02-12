@@ -207,9 +207,9 @@ public class AddMarks extends JFrame {
 		            if(added>1) {
 		            JOptionPane.showMessageDialog(null,"Marks added successfully.");
 		            
-				}else {
+		            }else {
 					JOptionPane.showMessageDialog(null,"Failed to Add.");
-				}
+		            }
 		            
 		            pstmt.close();
 		            con.close();
