@@ -49,6 +49,7 @@ public class Dashboard extends JFrame {
 	private static String loggedPassword;
 	private static String loggedPhone;
 	private static int loggedID;
+	private JButton addM;
 
 	/**
 	 * Launch the application.
@@ -128,19 +129,19 @@ public class Dashboard extends JFrame {
 		JButton btnNewButton_2 = new JButton("Teachers");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(2);
+				tabbedPane.setSelectedIndex(3);
 			}
 		});
-		btnNewButton_2.setBounds(6, 168, 133, 45);
+		btnNewButton_2.setBounds(6, 206, 133, 45);
 		panel.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Students");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(3);
+				tabbedPane.setSelectedIndex(2);
 			}
 		});
-		btnNewButton_3.setBounds(6, 213, 133, 40);
+		btnNewButton_3.setBounds(6, 167, 133, 40);
 		panel.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Logout");
@@ -209,7 +210,7 @@ public class Dashboard extends JFrame {
 		panel.add(report);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(163, 0, 713, 596);
+		tabbedPane.setBounds(163, -28, 713, 624);
 		contentPane.add(tabbedPane);
 		
 
@@ -1042,25 +1043,25 @@ public class Dashboard extends JFrame {
         lblNewLabel_35.setBounds(216, 6, 364, 49);
         panel_18.add(lblNewLabel_35);
         
-        JButton btnNewButton_13 = new JButton("Edit Marks");
-        btnNewButton_13.addActionListener(new ActionListener() {
+        JButton editM = new JButton("Edit Marks");
+        editM.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		EditMarks em=new EditMarks();
         		em.setVisible(true);
         	}
         });
-        btnNewButton_13.setBounds(309, 88, 127, 54);
-        panel_17.add(btnNewButton_13);
+        editM.setBounds(309, 88, 127, 54);
+        panel_17.add(editM);
         
-        JButton btnNewButton_13_1 = new JButton("Add Marks");
-        btnNewButton_13_1.addActionListener(new ActionListener() {
+        addM = new JButton("Add Marks");
+        addM.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		AddMarks am = new AddMarks();
         		am.setVisible(true);
         	}
         });
-        btnNewButton_13_1.setBounds(112, 88, 127, 54);
-        panel_17.add(btnNewButton_13_1);
+        addM.setBounds(112, 88, 127, 54);
+        panel_17.add(addM);
         
         rd = new ResultTable();
 		rd.setBounds(6, 172, 676, 354);
@@ -1108,14 +1109,16 @@ public class Dashboard extends JFrame {
     
         }
         
-        if(Userrole!="Teacher") {
+        if(Userrole=="Student") {
         	progress.setVisible(false);
         }
         
         if(Userrole!="Student") {
         	report.setVisible(false);
         }
-        
-        
+       if(Userrole!="Teacher") { 
+    	   editM.setVisible(false);
+    	   addM.setVisible(false);       }
+       
 	}
 }
