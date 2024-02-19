@@ -36,9 +36,26 @@ public class ResultTable extends JPanel {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
             Statement stmt = con.createStatement();
             
-            String query = "SELECT s.StudentId, s.fullname, s.level, r.module_1, r.mark_1, r.module_2, r.mark_2, r.module_3, r.mark_3, r.percentage, r.result "
-                         + "FROM Student s "
-                         + "JOIN Result r ON s.StudentID = r.StudentId";
+            String query = "SELECT s.StudentId, s.fullname, s.level, " +
+                    "CASE " +
+                    "   WHEN s.level = 4 THEN 'ITP' " +
+                    "   WHEN s.level = 5 THEN 'NMC' " +
+                    "   WHEN s.level = 6 THEN 'HPC' " +
+                    "END AS module_1, " +
+                    "CASE " +
+                    "   WHEN s.level = 4 THEN 'ISA' " +
+                    "   WHEN s.level = 5 THEN 'AI' " +
+                    "   WHEN s.level = 6 THEN 'BigData' " +
+                    "END AS module_2, " +
+                    "CASE " +
+                    "   WHEN s.level = 4 THEN 'Math' " +
+                    "   WHEN s.level = 5 THEN 'OOP' " +
+                    "   WHEN s.level = 6 THEN 'HCI' " +
+                    "END AS module_3, " +
+                    "r.mark_1, r.mark_2, r.mark_3 " +
+                    "FROM Student s " +
+                    "JOIN Result r ON s.StudentID = r.StudentId";
+
             
             ResultSet rs = stmt.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -63,7 +80,7 @@ public class ResultTable extends JPanel {
         }
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(0, 0, 789, 421);
+        scrollPane.setBounds(0, 0, 712, 421);
         add(scrollPane);
         
         table = new JTable(model);
@@ -78,6 +95,17 @@ public class ResultTable extends JPanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         table.setRowHeight(30);
+        
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(15);
+        columnModel.getColumn(1).setPreferredWidth(100);
+        columnModel.getColumn(2).setPreferredWidth(10);
+        columnModel.getColumn(3).setPreferredWidth(50);
+        columnModel.getColumn(4).setPreferredWidth(30);
+        columnModel.getColumn(5).setPreferredWidth(50);
+        columnModel.getColumn(6).setPreferredWidth(30);
+        columnModel.getColumn(7).setPreferredWidth(50);
+        columnModel.getColumn(8).setPreferredWidth(30);
 
         JTableHeader header = table.getTableHeader();
         header.setVisible(true);

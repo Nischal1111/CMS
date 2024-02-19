@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -48,7 +50,7 @@ public class ResultDisplay extends JFrame {
      */
     public ResultDisplay() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 550, 422);
+        setBounds(100, 100, 550, 444);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -182,7 +184,7 @@ public class ResultDisplay extends JFrame {
         lblNewLabel_9.setBounds(338, 299, 71, 32);
         contentPane.add(lblNewLabel_9);
 
-        lblResult = new JLabel("Pass");
+        lblResult = new JLabel("");
         lblResult.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         lblResult.setBounds(407, 295, 61, 40);
         contentPane.add(lblResult);
@@ -193,7 +195,7 @@ public class ResultDisplay extends JFrame {
                 dispose();
             }
         });
-        btnNewButton.setBounds(199, 332, 136, 52);
+        btnNewButton.setBounds(201, 358, 136, 52);
         contentPane.add(btnNewButton);
     }
 
@@ -201,7 +203,7 @@ public class ResultDisplay extends JFrame {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
 
-            String query = "SELECT * FROM Student s JOIN Result r ON s.StudentID = r.StudentID WHERE s.StudentID = ?";
+            String query = "SELECT * FROM Student s LEFT JOIN Result r ON s.StudentID = r.StudentID WHERE s.StudentID = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, studentID);
 
@@ -220,7 +222,25 @@ public class ResultDisplay extends JFrame {
                 markLabels[2].setText(Integer.toString(resultSet.getInt("mark_3")));
 
                 lblPercentage.setText(resultSet.getString("percentage"));
-                lblResult.setText(resultSet.getString("result"));
+                String result = resultSet.getString("result");
+                lblResult.setText(result);
+
+                // Check if the result is PASS or FAIL
+                if (result.equals("PASS")) {
+                    JLabel passLabel = new JLabel("Student can proceed to next Semester.");
+                    passLabel.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+                    passLabel.setForeground(Color.GREEN);
+                    passLabel.setBounds(150, 340, 350, 20);
+                    contentPane.add(passLabel);
+                } else if (result.equals("FAIL")) {
+                    JLabel failLabel = new JLabel("Student needs to Re-Do the semester.");
+                    failLabel.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+                    failLabel.setForeground(Color.RED);
+                    failLabel.setBounds(150, 340, 350, 20);
+                    contentPane.add(failLabel);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "There is no report card for this student.");
             }
 
             resultSet.close();
@@ -230,4 +250,6 @@ public class ResultDisplay extends JFrame {
             e.printStackTrace();
         }
     }
+
+
 }

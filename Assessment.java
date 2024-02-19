@@ -75,6 +75,31 @@ public class Assessment extends JFrame {
         return null;
     }
 	
+	private String[] getTeacherInfo(int teacherID) {
+	    String url = "jdbc:mysql://localhost:3306/CMS";
+	    String dbUsername = "root";
+	    String dbPassword = "";
+
+	    try (Connection connection = DriverManager.getConnection(url, dbUsername, dbPassword)) {
+	        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Teacher WHERE TeacherID = ?");
+	        preparedStatement.setInt(1, teacherID);
+
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            String level = resultSet.getString("Level");
+	            String module1 = resultSet.getString("Module1");
+
+	            return new String[]{level, module1};
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return null;
+	}
+
+	
 	public Assessment() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 848, 503);
@@ -116,10 +141,21 @@ public class Assessment extends JFrame {
                     String userPhone=loginResult[4];
                     int userID=Integer.parseInt(loginResult[5]);
                     
+                    String level = "";
+                    String module1 = "";
+                    
+                    if (userRole.equals("Teacher")) {
+                        String[] teacherInfo = getTeacherInfo(userID);
+                        if (teacherInfo != null) {
+                            level = teacherInfo[0];
+                            module1 = teacherInfo[1];
+                        }
+                    }
+                    
 
                     JOptionPane.showMessageDialog(null, "Logged in as " + userRole);
 
-                    Dashboard dashboard = new Dashboard(userFullName, userRole,userEmail,userPassword,userPhone,userID);
+                    Dashboard dashboard = new Dashboard(userFullName, userRole,userEmail,userPassword,userPhone,userID,level,module1);
                     dispose();
                     dashboard.setVisible(true);
 

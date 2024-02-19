@@ -42,6 +42,7 @@ public class Dashboard extends JFrame {
 	private JTextField txtNischalgmailcom;
 	private JPasswordField oldPassword;
 	private JPasswordField newPassword;
+	private JButton addM;
 
 	private static String loggedInFullName;
 	private static String loggedEmail;
@@ -49,7 +50,9 @@ public class Dashboard extends JFrame {
 	private static String loggedPassword;
 	private static String loggedPhone;
 	private static int loggedID;
-	private JButton addM;
+	private static String TeacherLevel;
+	private static String TeacherModule1;
+	
 
 	/**
 	 * Launch the application.
@@ -58,7 +61,7 @@ public class Dashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard frame = new Dashboard(loggedInFullName,Userrole,loggedEmail,loggedPassword,loggedPhone,loggedID);
+					Dashboard frame = new Dashboard(loggedInFullName,Userrole,loggedEmail,loggedPassword,loggedPhone,loggedID,TeacherLevel,TeacherModule1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +74,7 @@ public class Dashboard extends JFrame {
 	 * Create the frame
 	 */
 
-	public Dashboard(String fullName, String role,String email,String Password,String Phone,int ID){
+	public Dashboard(String fullName, String role,String email,String Password,String Phone,int ID,String teacherlevel,String teachermodule1){
 		
 		loggedInFullName = fullName;
 		Userrole=role;
@@ -79,9 +82,11 @@ public class Dashboard extends JFrame {
 		loggedPassword=Password;
 		loggedPhone=Phone;
 		loggedID=ID;
-		
+		TeacherLevel=teacherlevel;
+		TeacherModule1=teachermodule1;
+				
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 882, 630);
+		setBounds(100, 100, 876, 630);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(211, 211, 211));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -150,8 +155,9 @@ public class Dashboard extends JFrame {
 		        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "Logout Confirmation", JOptionPane.YES_NO_OPTION);
 		        
 		        if (choice == JOptionPane.YES_OPTION) {
+		        	dispose();
 		            Assessment login = new Assessment();
-		            dispose();
+		            
 		            login.setVisible(true);
 		            
 		        }
@@ -1046,7 +1052,7 @@ public class Dashboard extends JFrame {
         JButton editM = new JButton("Edit Marks");
         editM.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		EditMarks em=new EditMarks();
+        		StudentIDEditMarks em=new StudentIDEditMarks();
         		em.setVisible(true);
         	}
         });
@@ -1056,7 +1062,7 @@ public class Dashboard extends JFrame {
         addM = new JButton("Add Marks");
         addM.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		AddMarks am = new AddMarks();
+        		StudentIDADDMarks am = new StudentIDADDMarks(TeacherModule1,TeacherLevel);
         		am.setVisible(true);
         	}
         });
@@ -1064,7 +1070,7 @@ public class Dashboard extends JFrame {
         panel_17.add(addM);
         
         rd = new ResultTable();
-		rd.setBounds(6, 172, 676, 354);
+		rd.setBounds(0, 174, 692, 279);
 		rd.setForeground(new Color(0, 0, 0));
         panel_17.add(rd);
         rd.setLayout(null);
@@ -1081,6 +1087,16 @@ public class Dashboard extends JFrame {
         });
         SRrefr.setBounds(516, 88, 133, 49);
         panel_17.add(SRrefr);
+        
+        JLabel teachlevel = new JLabel("You are currently a teacher for level : "+TeacherLevel);
+        teachlevel.setFont(new Font("Maku", Font.BOLD, 23));
+        teachlevel.setBounds(10, 468, 364, 39);
+        panel_17.add(teachlevel);
+        
+        JLabel teachmodule = new JLabel("Your current module is: "+TeacherModule1);
+        teachmodule.setFont(new Font("Maku", Font.BOLD, 23));
+        teachmodule.setBounds(6, 506, 364, 39);
+        panel_17.add(teachmodule);
         
         
         if(Userrole=="Student" || Userrole=="Teacher") {
@@ -1120,6 +1136,8 @@ public class Dashboard extends JFrame {
     	   editM.setVisible(false);
     	   addM.setVisible(false);  
     	   SRrefr.setVisible(false);
+    	   teachlevel.setVisible(false);
+    	   teachmodule.setVisible(false);
     	   
        }
        

@@ -1,14 +1,12 @@
 package CMS;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -18,219 +16,189 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
 
 public class EditMarks extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JTextField textField_1;
+    private JTextField textField_2;
+    private JTextField textField_3;
+    private int studentId;
+    private JLabel lblNewLabel_1;
+    private JLabel lblNewLabel_1_2;
+    private JLabel lblNewLabel_1_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditMarks frame = new EditMarks();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Create the frame.
+     */
+    public EditMarks(int studentId) {
+        this.studentId = studentId;
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 468, 450);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public EditMarks() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 583, 536);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(173, 216, 230));
+        panel.setBounds(6, 6, 571, 61);
+        contentPane.add(panel);
+        panel.setLayout(null);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(135, 206, 235));
-		panel.setBounds(6, 6, 571, 61);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Edit Marks");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 28));
-		lblNewLabel.setBounds(211, 6, 149, 49);
-		panel.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Student ID:");
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_1.setBounds(32, 83, 89, 24);
-		contentPane.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setBounds(121, 79, 139, 35);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("Level:");
-		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_2.setBounds(297, 88, 51, 16);
-		contentPane.add(lblNewLabel_2);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(347, 79, 139, 35);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("Module 1:");
-		lblNewLabel_3.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_3.setBounds(32, 153, 77, 16);
-		contentPane.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_3_1 = new JLabel("Module 2:");
-		lblNewLabel_3_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_3_1.setBounds(213, 154, 77, 16);
-		contentPane.add(lblNewLabel_3_1);
-		
-		JLabel lblNewLabel_3_2 = new JLabel("Module 3:");
-		lblNewLabel_3_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_3_2.setBounds(413, 154, 77, 16);
-		contentPane.add(lblNewLabel_3_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(6, 181, 130, 35);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(183, 182, 130, 35);
-		contentPane.add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(380, 182, 130, 35);
-		contentPane.add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(6, 293, 130, 35);
-		contentPane.add(textField_5);
-		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(183, 293, 130, 35);
-		contentPane.add(textField_6);
-		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(380, 293, 130, 35);
-		contentPane.add(textField_7);
-		
-		JLabel lblNewLabel_4 = new JLabel("Marks 1:");
-		lblNewLabel_4.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_4.setBounds(32, 265, 77, 16);
-		contentPane.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_4_1 = new JLabel("Marks 2:");
-		lblNewLabel_4_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_4_1.setBounds(213, 266, 77, 16);
-		contentPane.add(lblNewLabel_4_1);
-		
-		JLabel lblNewLabel_4_2 = new JLabel("Marks 3:");
-		lblNewLabel_4_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_4_2.setBounds(409, 265, 77, 16);
-		contentPane.add(lblNewLabel_4_2);
-		
-		JLabel lblNewLabel_5 = new JLabel("Percentage:");
-		lblNewLabel_5.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_5.setBounds(122, 359, 89, 24);
-		contentPane.add(lblNewLabel_5);
-		
-		JLabel lblNewLabel_5_1 = new JLabel("Result:");
-		lblNewLabel_5_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_5_1.setBounds(312, 359, 89, 24);
-		contentPane.add(lblNewLabel_5_1);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(97, 389, 130, 35);
-		contentPane.add(textField_8);
-		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(274, 389, 130, 35);
-		contentPane.add(textField_9);
-		
-		JButton btnNewButton = new JButton("Edit Marks");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-		            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
-		            
-		            String query = "UPDATE Result SET module_1=?, mark_1=?, module_2=?, mark_2=?, module_3=?, mark_3=?, percentage=?, result=? WHERE StudentId=?";
-		            PreparedStatement pstmt = con.prepareStatement(query);
-		            
-		            String module1 = textField_2.getText();
-		            int mark1 = Integer.parseInt(textField_5.getText());
-		            String module2 = textField_3.getText();
-		            int mark2 = Integer.parseInt(textField_6.getText());
-		            String module3 = textField_4.getText();
-		            int mark3 = Integer.parseInt(textField_7.getText());
-		            float percentage = Float.parseFloat(textField_8.getText());
-		            String result = textField_9.getText();
-		            int studentId = Integer.parseInt(textField.getText()); 
-		            
-		            pstmt.setString(1, module1);
-		            pstmt.setInt(2, mark1);
-		            pstmt.setString(3, module2);
-		            pstmt.setInt(4, mark2);
-		            pstmt.setString(5, module3);
-		            pstmt.setInt(6, mark3);
-		            pstmt.setFloat(7, percentage);
-		            pstmt.setString(8, result);
-		            pstmt.setInt(9, studentId);
-		            
-		            int rowsAffected = pstmt.executeUpdate();
-		            
-		            if (rowsAffected > 0) {
-		                JOptionPane.showMessageDialog(null, "Marks updated successfully.");
-		                
-		            } else {
-		                JOptionPane.showMessageDialog(null, "No records found for the provided Student ID.");
-		            }
-		            
-		            pstmt.close();
-		            con.close();
-		            
-		        } catch (SQLException ex) {
-		            ex.printStackTrace();
-		            JOptionPane.showMessageDialog(null, "Error updating marks: " + ex.getMessage());
-		        }
-			}
-		});
-		btnNewButton.setBounds(183, 446, 130, 41);
-		contentPane.add(btnNewButton);
-		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnCancel.setBounds(447, 452, 130, 41);
-		contentPane.add(btnCancel);
-	}
+        JLabel lblNewLabel = new JLabel("Edit Marks");
+        lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        lblNewLabel.setBounds(160, 6, 149, 49);
+        panel.add(lblNewLabel);
 
+        JLabel lblNewLabel_3 = new JLabel("Module 1:");
+        lblNewLabel_3.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_3.setBounds(61, 82, 77, 16);
+        contentPane.add(lblNewLabel_3);
+
+        JLabel lblNewLabel_3_1 = new JLabel("Module 2:");
+        lblNewLabel_3_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_3_1.setBounds(61, 170, 77, 16);
+        contentPane.add(lblNewLabel_3_1);
+
+        JLabel lblNewLabel_3_2 = new JLabel("Module 3:");
+        lblNewLabel_3_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_3_2.setBounds(61, 266, 77, 16);
+        contentPane.add(lblNewLabel_3_2);
+
+        lblNewLabel_1 = new JLabel("Module_1");
+        lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_1.setBounds(76, 122, 91, 26);
+        contentPane.add(lblNewLabel_1);
+
+        lblNewLabel_1_1 = new JLabel("Module_2");
+        lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_1_1.setBounds(76, 201, 91, 26);
+        contentPane.add(lblNewLabel_1_1);
+
+        lblNewLabel_1_2 = new JLabel("Module_3");
+        lblNewLabel_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_1_2.setBounds(76, 294, 91, 26);
+        contentPane.add(lblNewLabel_1_2);
+
+        textField_1 = new JTextField();
+        textField_1.setColumns(10);
+        textField_1.setBounds(309, 107, 130, 35);
+        contentPane.add(textField_1);
+
+        textField_2 = new JTextField();
+        textField_2.setColumns(10);
+        textField_2.setBounds(309, 198, 130, 35);
+        contentPane.add(textField_2);
+
+        textField_3 = new JTextField();
+        textField_3.setColumns(10);
+        textField_3.setBounds(309, 294, 130, 35);
+        contentPane.add(textField_3);
+
+        JLabel lblNewLabel_4 = new JLabel("Marks 1:");
+        lblNewLabel_4.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_4.setBounds(341, 79, 77, 16);
+        contentPane.add(lblNewLabel_4);
+
+        JLabel lblNewLabel_4_1 = new JLabel("Marks 2:");
+        lblNewLabel_4_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_4_1.setBounds(341, 170, 77, 16);
+        contentPane.add(lblNewLabel_4_1);
+
+        JLabel lblNewLabel_4_2 = new JLabel("Marks 3:");
+        lblNewLabel_4_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblNewLabel_4_2.setBounds(341, 266, 77, 16);
+        contentPane.add(lblNewLabel_4_2);
+
+        JButton btnNewButton = new JButton("Edit Marks");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editMarks();
+            }
+        });
+        btnNewButton.setBounds(160, 342, 130, 41);
+        contentPane.add(btnNewButton);
+
+        JButton btnCancel = new JButton("Cancel");
+        btnCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        btnCancel.setBounds(332, 375, 130, 41);
+        contentPane.add(btnCancel);
+
+        populateModuleNames();
+    }
+
+    private void populateModuleNames() {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
+
+            // Fetch module names based on student's ID from the database
+            String query = "SELECT module1, module2, module3 FROM Student WHERE studentid = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, studentId);
+            ResultSet rs = pstmt.executeQuery();
+
+            // If there are results, populate the labels with module names
+            if (rs.next()) {
+                lblNewLabel_1.setText(rs.getString("module1"));
+                lblNewLabel_1_1.setText(rs.getString("module2"));
+                lblNewLabel_1_2.setText(rs.getString("module3"));
+            }
+
+            pstmt.close();
+            con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void editMarks() {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CMS", "root", "");
+
+            String query2 = "UPDATE Result SET module_1 = ?, mark_1 = ?, module_2 = ?, mark_2 = ?, module_3 = ?, mark_3 = ?, percentage = ?, result = ? WHERE StudentId = ?";
+            PreparedStatement pstmt2 = con.prepareStatement(query2);
+
+            int mark1 = Integer.parseInt(textField_1.getText());
+            int mark2 = Integer.parseInt(textField_2.getText());
+            int mark3 = Integer.parseInt(textField_3.getText());
+
+            // Calculate percentage
+            float totalMarks = mark1 + mark2 + mark3;
+            float percentage = totalMarks / 3;
+
+            // Determine result
+            String result = (percentage >= 40) ? "PASS" : "FAIL";
+
+            pstmt2.setString(1, lblNewLabel_1.getText()); // Using label text for module name
+            pstmt2.setInt(2, mark1);
+            pstmt2.setString(3, lblNewLabel_1_1.getText()); // Using label text for module name
+            pstmt2.setInt(4, mark2);
+            pstmt2.setString(5, lblNewLabel_1_2.getText()); // Using label text for module name
+            pstmt2.setInt(6, mark3);
+            pstmt2.setFloat(7, percentage);
+            pstmt2.setString(8, result);
+            pstmt2.setInt(9, studentId);
+
+            int updated = pstmt2.executeUpdate();
+
+            if (updated > 0) {
+                JOptionPane.showMessageDialog(null, "Marks updated successfully.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update marks.");
+            }
+
+            pstmt2.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

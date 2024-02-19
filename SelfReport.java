@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -185,7 +187,7 @@ public class SelfReport extends JFrame {
         lblNewLabel_9.setBounds(338, 299, 71, 32);
         contentPane.add(lblNewLabel_9);
 
-        lblResult = new JLabel("Pass");
+        lblResult = new JLabel("");
         lblResult.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         lblResult.setBounds(407, 295, 61, 40);
         contentPane.add(lblResult);
@@ -223,6 +225,8 @@ public class SelfReport extends JFrame {
 
                 lblPercentage.setText(resultSet.getString("percentage"));
                 lblResult.setText(resultSet.getString("result"));
+            }else {
+            	JOptionPane.showMessageDialog(null, "Your Report card has not been launched yet.");
             }
 
             resultSet.close();
